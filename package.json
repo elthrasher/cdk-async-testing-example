@@ -1,0 +1,62 @@
+{
+  "name": "cdk-async-testing",
+  "version": "1.0.0",
+  "description": "Async testing with custom resources",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elthrasher/cdk-async-testing"
+  },
+  "scripts": {
+    "clean": "rimraf cdk.out coverage",
+    "deploy": "npm run clean && cdk deploy --require-approval never",
+    "destroy": "cdk destroy --force",
+    "lint": "eslint . --ext=.js,.ts --ext=.json",
+    "pretest": "npm run lint",
+    "synth": "npm run clean && cdk synth --no-staging > template.yaml",
+    "test": "jest --coverage --silent"
+  },
+  "keywords": [
+    "AWS",
+    "CDK",
+    "async",
+    "cloud",
+    "testing"
+  ],
+  "author": "Matt Morgan",
+  "license": "MIT",
+  "devDependencies": {
+    "@aws-cdk/assert": "1.118.0",
+    "@types/aws-lambda": "^8.10.82",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^14.17.9",
+    "@typescript-eslint/eslint-plugin": "^4.29.1",
+    "@typescript-eslint/parser": "^4.29.1",
+    "aws-cdk": "1.118.0",
+    "esbuild": "^0.12.20",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "jest": "^27.0.6",
+    "prettier": "^2.3.2",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^27.0.4",
+    "ts-node": "^10.2.0",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-dynamodb": "1.118.0",
+    "@aws-cdk/aws-events": "1.118.0",
+    "@aws-cdk/aws-events-targets": "1.118.0",
+    "@aws-cdk/aws-eventschemas": "1.118.0",
+    "@aws-cdk/aws-lambda": "1.118.0",
+    "@aws-cdk/aws-lambda-event-sources": "1.118.0",
+    "@aws-cdk/aws-lambda-nodejs": "1.118.0",
+    "@aws-cdk/aws-logs": "1.118.0",
+    "@aws-cdk/aws-stepfunctions": "1.118.0",
+    "@aws-cdk/aws-stepfunctions-tasks": "1.118.0",
+    "@aws-cdk/core": "1.118.0",
+    "@aws-cdk/custom-resources": "1.118.0",
+    "aws-sdk": "^2.968.0",
+    "dynamodb-toolbox": "^0.3.4"
+  }
+}

@@ -1,0 +1,19 @@
+*.js
+.eslintcache
+!.eslintrc.js
+!.prettierrc.js
+!jest.config.js
+*.d.ts
+node_modules
+**/.DS_Store
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+template.yaml
+
+# coverage
+coverage
+
+# IDE
+.vscode
