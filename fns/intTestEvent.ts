@@ -1,7 +1,6 @@
 import EventBridge from 'aws-sdk/clients/eventbridge';
 
 import type { CloudFormationCustomResourceEvent } from 'aws-lambda';
-console.log('EventBridge', EventBridge);
 const eb = new EventBridge();
 
 export const handler = async (event: CloudFormationCustomResourceEvent): Promise<void> => {
