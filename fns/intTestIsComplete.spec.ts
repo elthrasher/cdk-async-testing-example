@@ -62,7 +62,9 @@ describe('custom resource', () => {
     try {
       await handler(event);
     } catch (e) {
-      expect(e.message).toBe('ERROR!');
+      if (e instanceof Error) {
+        expect(e.message).toBe('ERROR!');
+      }
     }
   });
 });

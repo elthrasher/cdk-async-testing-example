@@ -32,9 +32,9 @@ describe('Entire Stack', () => {
 
     expect(cfn).toMatchSnapshot(matchObject);
     expect(stack).toCountResources('AWS::CloudFormation::CustomResource', 1);
-    expect(stack).toCountResources('AWS::DynamoDB::Table', 1);
+    expect(stack).toCountResources('AWS::DynamoDB::Table', 2);
     expect(stack).toCountResources('AWS::Events::EventBus', 1);
-    expect(stack).toCountResources('AWS::Lambda::Function', 12);
+    expect(stack).toCountResources('AWS::Lambda::Function', 15);
     expect(stack).toCountResources('AWS::StepFunctions::StateMachine', 2);
   });
 });

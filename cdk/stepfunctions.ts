@@ -13,8 +13,8 @@ export const getStateMachine = (stack: Stack, fns: lambdaFunctions): StateMachin
   const isSuccessful = new Choice(stack, 'Is Collection Successful?');
 
   const chain = Chain.start(openCollection)
-    .next(collect)
     // .next(new Wait(stack, 'WaitAround', { time: WaitTime.duration(Duration.seconds(30)) }))
+    .next(collect)
     .next(
       isSuccessful
         .when(Condition.numberEquals('$.Payload.Status', 0), collectionSuccess)

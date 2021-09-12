@@ -45,7 +45,9 @@ describe('open a payment for collections', () => {
     try {
       await handler(event);
     } catch (e) {
-      expect(e.message).toBe('ERROR!');
+      if (e instanceof Error) {
+        expect(e.message).toBe('ERROR!');
+      }
     }
   });
 });

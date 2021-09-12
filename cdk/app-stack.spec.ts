@@ -27,9 +27,9 @@ describe('App Stack', () => {
     });
 
     expect(cfn).toMatchSnapshot(matchObject);
-    expect(stack).toCountResources('AWS::DynamoDB::Table', 1);
+    expect(stack).toCountResources('AWS::DynamoDB::Table', 2);
     expect(stack).toCountResources('AWS::Events::EventBus', 1);
-    expect(stack).toCountResources('AWS::Lambda::Function', 6);
+    expect(stack).toCountResources('AWS::Lambda::Function', 9);
     expect(stack).toCountResources('AWS::StepFunctions::StateMachine', 1);
   });
 });

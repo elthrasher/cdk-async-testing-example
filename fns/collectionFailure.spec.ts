@@ -33,7 +33,9 @@ describe('collection failure function', () => {
     try {
       await handler({ Payload: { Payment: { id: '1', status: PaymentStatus.COLLECTIONS } } });
     } catch (e) {
-      expect(e.message).toBe('ERROR!');
+      if (e instanceof Error) {
+        expect(e.message).toBe('ERROR!');
+      }
     }
   });
 });

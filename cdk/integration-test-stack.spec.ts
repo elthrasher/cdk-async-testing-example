@@ -41,7 +41,7 @@ describe('Integration Test Stack', () => {
 
     expect(cfn).toMatchSnapshot(matchObject);
     expect(stack).toCountResources('AWS::CloudFormation::CustomResource', 1);
-    expect(stack).toCountResources('AWS::Lambda::Function', 12);
+    expect(stack).toCountResources('AWS::Lambda::Function', 15);
     expect(stack).toCountResources('AWS::StepFunctions::StateMachine', 2);
   });
 });

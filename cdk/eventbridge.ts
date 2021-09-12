@@ -1,8 +1,8 @@
 import { EventBus, Rule } from '@aws-cdk/aws-events';
 import { LambdaFunction, SfnStateMachine } from '@aws-cdk/aws-events-targets';
-import { CfnDiscoverer } from '@aws-cdk/aws-eventschemas';
 import { StateMachine } from '@aws-cdk/aws-stepfunctions';
 import { Stack } from '@aws-cdk/core';
+import { EventBridgeWebSocket } from 'cdk-eventbridge-socket';
 
 import type { lambdaFunctions } from './lambda';
 
@@ -41,14 +41,15 @@ export const getEventBus = (stack: Stack, fns: lambdaFunctions, sm: StateMachine
     targets: [new SfnStateMachine(sm)],
   });
 
-  const tag = { key: 'function', value: 'payment' };
-
-  new CfnDiscoverer(stack, 'PaymentEventDiscoverer', {
-    sourceArn: eventBus.eventBusArn,
-    tags: [tag],
-  });
-
   eventBus.grantPutEventsTo(fns.paymentFailure);
+
+  new EventBridgeWebSocket(stack, 'sockets', {
+    bus: eventBus.eventBusName,
+    eventPattern: {
+      source: ['payments'],
+    },
+    stage: 'dev',
+  });
 
   return eventBus;
 };

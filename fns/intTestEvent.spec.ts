@@ -58,7 +58,9 @@ describe('collection success function', () => {
     try {
       await handler(event);
     } catch (e) {
-      expect(e.message).toBe('Integration Test failed!');
+      if (e instanceof Error) {
+        expect(e.message).toBe('Integration Test failed!');
+      }
     }
   });
 });
