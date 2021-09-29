@@ -1,4 +1,4 @@
-import { Function as LambdaFunction, Runtime } from '@aws-cdk/aws-lambda';
+import { Architecture, Function as LambdaFunction, Runtime } from '@aws-cdk/aws-lambda';
 import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
 import { Duration, Stack } from '@aws-cdk/core';
 
@@ -16,6 +16,7 @@ export type lambdaFunctions = {
 };
 
 const lambdaProps = {
+  architectures: [Architecture.ARM_64],
   bundling: {
     externalModules: [],
   },

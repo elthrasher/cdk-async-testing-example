@@ -422,6 +422,9 @@ Object {
         "collectFunctionServiceRoleBD487856",
       ],
       "Properties": Object {
+        "Architectures": Array [
+          "arm64",
+        ],
         "Code": Any<Object>,
         "Environment": Object {
           "Variables": Object {
@@ -478,6 +481,9 @@ Object {
         "collectionFailureFunctionServiceRole662CE2FF",
       ],
       "Properties": Object {
+        "Architectures": Array [
+          "arm64",
+        ],
         "Code": Any<Object>,
         "Environment": Object {
           "Variables": Object {
@@ -570,6 +576,9 @@ Object {
         "collectionSuccessFunctionServiceRole727C0164",
       ],
       "Properties": Object {
+        "Architectures": Array [
+          "arm64",
+        ],
         "Code": Any<Object>,
         "Environment": Object {
           "Variables": Object {
@@ -662,6 +671,9 @@ Object {
         "openCollectionFunctionServiceRole5D634737",
       ],
       "Properties": Object {
+        "Architectures": Array [
+          "arm64",
+        ],
         "Code": Any<Object>,
         "Environment": Object {
           "Variables": Object {
@@ -754,6 +766,9 @@ Object {
         "paymentFailureFunctionServiceRole7EB3B3AA",
       ],
       "Properties": Object {
+        "Architectures": Array [
+          "arm64",
+        ],
         "Code": Any<Object>,
         "Environment": Object {
           "Variables": Object {
@@ -856,6 +871,9 @@ Object {
         "paymentSuccessFunctionServiceRole417E5467",
       ],
       "Properties": Object {
+        "Architectures": Array [
+          "arm64",
+        ],
         "Code": Any<Object>,
         "Environment": Object {
           "Variables": Object {
