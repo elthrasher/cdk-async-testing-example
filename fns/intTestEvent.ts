@@ -19,7 +19,7 @@ export const handler = async (event: CloudFormationCustomResourceEvent): Promise
               Source: 'payments',
               DetailType: status,
               Time: new Date(),
-              Detail: JSON.stringify({ id: `${Version}-${status}` }),
+              Detail: JSON.stringify({ id: `TEST#${Version}#${status}` }),
             },
           ],
         })

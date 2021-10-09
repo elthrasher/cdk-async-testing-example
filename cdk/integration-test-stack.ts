@@ -1,5 +1,6 @@
 import { Table } from '@aws-cdk/aws-dynamodb';
 import { EventBus } from '@aws-cdk/aws-events';
+import { PolicyStatement } from '@aws-cdk/aws-iam';
 import { Runtime } from '@aws-cdk/aws-lambda';
 import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
 import { RetentionDays } from '@aws-cdk/aws-logs';
@@ -41,7 +42,17 @@ export class IntegrationTestStack extends NestedStack {
       functionName: 'IntTestIsComplete',
     });
 
-    table.grantReadData(isCompleteHandler);
+    isCompleteHandler.addToRolePolicy(
+      new PolicyStatement({
+        actions: ['dynamodb:GetItem'],
+        conditions: {
+          'ForAllValues:StringLike': {
+            'dynamodb:LeadingKeys': ['TEST#*'],
+          },
+        },
+        resources: [table.tableArn],
+      }),
+    );
 
     const intTestProvider = new Provider(stack, 'IntTestProvider', {
       isCompleteHandler,

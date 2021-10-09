@@ -28,7 +28,7 @@ describe('collection success function', () => {
     expect(putEventsFn).toHaveBeenCalledWith({
       Entries: [
         {
-          Detail: '{"id":"123-success"}',
+          Detail: '{"id":"TEST#123#success"}',
           DetailType: 'success',
           EventBusName: undefined,
           Source: 'payments',
@@ -39,7 +39,7 @@ describe('collection success function', () => {
     expect(putEventsFn).toHaveBeenCalledWith({
       Entries: [
         {
-          Detail: '{"id":"123-failure"}',
+          Detail: '{"id":"TEST#123#failure"}',
           DetailType: 'failure',
           EventBusName: undefined,
           Source: 'payments',
