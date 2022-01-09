@@ -1,5 +1,5 @@
 import { Duration, Stack } from 'aws-cdk-lib';
-import { Architecture, Function as LambdaFunction, Runtime } from 'aws-cdk-lib/aws-lambda';
+import { Architecture, Function as LambdaFunction, Runtime, Tracing } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 
 const functionNames = [
@@ -19,9 +19,13 @@ const lambdaProps = {
   architectures: [Architecture.ARM_64],
   bundling: {
     externalModules: [],
+    minify: true,
+    sourceMap: true,
   },
+  environment: { NODE_OPTIONS: '--enable-source-maps' },
   runtime: Runtime.NODEJS_14_X,
   timeout: Duration.minutes(1),
+  tracing: Tracing.ACTIVE,
 };
 
 export const getFunctions = (scope: Stack): lambdaFunctions => {

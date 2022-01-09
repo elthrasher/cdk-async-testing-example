@@ -24,5 +24,6 @@ export const getStateMachine = (stack: Stack, fns: lambdaFunctions): StateMachin
   return new StateMachine(stack, 'StateMachine', {
     definition: chain,
     stateMachineName: 'CollectionsStateMachine',
+    tracingEnabled: true,
   });
 };

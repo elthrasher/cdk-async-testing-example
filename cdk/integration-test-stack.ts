@@ -2,7 +2,7 @@ import { CustomResource, Duration, NestedStack, NestedStackProps, Stack } from '
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
 import { EventBus } from 'aws-cdk-lib/aws-events';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { Runtime } from 'aws-cdk-lib/aws-lambda';
+import { Runtime, Tracing } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Provider } from 'aws-cdk-lib/custom-resources';
@@ -22,9 +22,13 @@ export class IntegrationTestStack extends NestedStack {
     const lambdaProps = {
       bundling: {
         externalModules: [],
+        minify: true,
+        sourceMap: true,
       },
+      environment: { NODE_OPTIONS: '--enable-source-maps' },
       runtime: Runtime.NODEJS_14_X,
       timeout: Duration.minutes(1),
+      tracing: Tracing.ACTIVE,
     };
 
     const onEventHandler = new NodejsFunction(stack, 'IntTestEvent', {

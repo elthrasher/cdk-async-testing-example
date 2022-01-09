@@ -3,6 +3,8 @@ import { updateFn } from '../__mocks__/aws-sdk/clients/dynamodb';
 import { PaymentStatus } from '../models/payment';
 import { handler } from './paymentFailure';
 
+import type { Context } from 'aws-lambda';
+
 const event = {
   account: '',
   detail: { id: '1', status: PaymentStatus.PENDING },
@@ -17,7 +19,7 @@ const event = {
 
 describe('payment failure', () => {
   test('update the DynamoDB table with a failed response', async () => {
-    await handler(event);
+    await handler(event, {} as Context);
     expect(updateFn).toHaveBeenCalledWith({
       ExpressionAttributeNames: {
         '#_ct': '_ct',
@@ -43,7 +45,7 @@ describe('payment failure', () => {
     expect.assertions(1);
     awsSdkPromiseResponse.mockRejectedValueOnce(new Error('ERROR!'));
     try {
-      await handler(event);
+      await handler(event, {} as Context);
     } catch (e) {
       if (e instanceof Error) {
         expect(e.message).toBe('ERROR!');
