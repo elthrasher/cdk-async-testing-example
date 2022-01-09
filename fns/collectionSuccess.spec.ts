@@ -3,9 +3,11 @@ import { updateFn } from '../__mocks__/aws-sdk/clients/dynamodb';
 import { PaymentStatus } from '../models/payment';
 import { handler } from './collectionSuccess';
 
+import type { Context } from 'aws-lambda';
+
 describe('collection success function', () => {
   test('update the DynamoDB table with a success response', async () => {
-    await handler({ Payload: { Payment: { id: '1', status: PaymentStatus.COLLECTIONS } } });
+    await handler({ Payload: { Payment: { id: '1', status: PaymentStatus.COLLECTIONS } } }, {} as Context);
     expect(updateFn).toHaveBeenCalledWith({
       ExpressionAttributeNames: {
         '#_ct': '_ct',
@@ -31,7 +33,7 @@ describe('collection success function', () => {
     expect.assertions(1);
     awsSdkPromiseResponse.mockRejectedValueOnce(new Error('ERROR!'));
     try {
-      await handler({ Payload: { Payment: { id: '1', status: PaymentStatus.COLLECTIONS } } });
+      await handler({ Payload: { Payment: { id: '1', status: PaymentStatus.COLLECTIONS } } }, {} as Context);
     } catch (e) {
       if (e instanceof Error) {
         expect(e.message).toBe('ERROR!');

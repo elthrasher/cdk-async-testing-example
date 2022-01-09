@@ -321,6 +321,9 @@ Object {
           ],
         },
         "StateMachineName": "CollectionsStateMachine",
+        "TracingConfiguration": Object {
+          "Enabled": true,
+        },
       },
       "Type": "AWS::StepFunctions::StateMachine",
     },
@@ -393,6 +396,16 @@ Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+                "xray:GetSamplingRules",
+                "xray:GetSamplingTargets",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             Object {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
@@ -538,6 +551,7 @@ Object {
     },
     "collectFunctionF1DD4A0C": Object {
       "DependsOn": Array [
+        "collectFunctionServiceRoleDefaultPolicyC2ED4D54",
         "collectFunctionServiceRoleBD487856",
       ],
       "Properties": Object {
@@ -548,6 +562,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "NODE_OPTIONS": "--enable-source-maps",
           },
         },
         "FunctionName": "collect",
@@ -560,6 +575,9 @@ Object {
         },
         "Runtime": "nodejs14.x",
         "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -594,6 +612,30 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
+    "collectFunctionServiceRoleDefaultPolicyC2ED4D54": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "collectFunctionServiceRoleDefaultPolicyC2ED4D54",
+        "Roles": Array [
+          Object {
+            "Ref": "collectFunctionServiceRoleBD487856",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
     "collectionFailureFunction682979FB": Object {
       "DependsOn": Array [
         "collectionFailureFunctionServiceRoleDefaultPolicyB9F37612",
@@ -607,6 +649,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "NODE_OPTIONS": "--enable-source-maps",
           },
         },
         "FunctionName": "collectionFailure",
@@ -619,6 +662,9 @@ Object {
         },
         "Runtime": "nodejs14.x",
         "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -657,6 +703,14 @@ Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             Object {
               "Action": Array [
                 "dynamodb:BatchWriteItem",
@@ -703,6 +757,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "NODE_OPTIONS": "--enable-source-maps",
           },
         },
         "FunctionName": "collectionSuccess",
@@ -715,6 +770,9 @@ Object {
         },
         "Runtime": "nodejs14.x",
         "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -753,6 +811,14 @@ Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             Object {
               "Action": Array [
                 "dynamodb:BatchWriteItem",
@@ -799,6 +865,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "NODE_OPTIONS": "--enable-source-maps",
           },
         },
         "FunctionName": "openCollection",
@@ -811,6 +878,9 @@ Object {
         },
         "Runtime": "nodejs14.x",
         "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -849,6 +919,14 @@ Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             Object {
               "Action": Array [
                 "dynamodb:BatchWriteItem",
@@ -895,6 +973,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "NODE_OPTIONS": "--enable-source-maps",
           },
         },
         "FunctionName": "paymentFailure",
@@ -907,6 +986,9 @@ Object {
         },
         "Runtime": "nodejs14.x",
         "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -945,6 +1027,14 @@ Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             Object {
               "Action": Array [
                 "dynamodb:BatchWriteItem",
@@ -1001,6 +1091,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "NODE_OPTIONS": "--enable-source-maps",
           },
         },
         "FunctionName": "paymentSuccess",
@@ -1013,6 +1104,9 @@ Object {
         },
         "Runtime": "nodejs14.x",
         "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -1051,6 +1145,14 @@ Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             Object {
               "Action": Array [
                 "dynamodb:BatchWriteItem",

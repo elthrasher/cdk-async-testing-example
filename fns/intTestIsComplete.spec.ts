@@ -5,6 +5,8 @@ import { putFn } from '../__mocks__/aws-sdk/clients/dynamodb';
 import { PaymentStatus } from '../models/payment';
 import { handler } from './intTestIsComplete';
 
+import type { Context } from 'aws-lambda';
+
 const event = {
   LogicalResourceId: '',
   RequestId: '',
@@ -27,7 +29,7 @@ describe('custom resource', () => {
   test('test is complete', async () => {
     awsSdkPromiseResponse.mockReturnValueOnce({ Item: { id: 1, status: PaymentStatus.SUCCESS } });
     awsSdkPromiseResponse.mockReturnValueOnce({ Item: { id: 1, status: PaymentStatus.COLLECTION_SUCCESS } });
-    const response = await handler(event);
+    const response = await handler(event, {} as Context);
     expect(response).toEqual({
       Data: {
         Result:
@@ -39,7 +41,7 @@ describe('custom resource', () => {
   test('test is not complete', async () => {
     awsSdkPromiseResponse.mockReturnValueOnce({ Item: { id: 1, status: PaymentStatus.SUCCESS } });
     awsSdkPromiseResponse.mockReturnValueOnce({ Item: { id: 1, status: PaymentStatus.COLLECTIONS } });
-    const response = await handler(event);
+    const response = await handler(event, {} as Context);
     expect(response).toEqual({
       IsComplete: false,
     });
@@ -47,20 +49,20 @@ describe('custom resource', () => {
   test('empty response from table', async () => {
     awsSdkPromiseResponse.mockReturnValueOnce({ Item: undefined });
     awsSdkPromiseResponse.mockReturnValueOnce({ Item: undefined });
-    const response = await handler(event);
+    const response = await handler(event, {} as Context);
     expect(response).toEqual({
       IsComplete: false,
     });
   });
   test('do nothing on a delete event', async () => {
-    await handler({ ...event, PhysicalResourceId: '', RequestType: 'Delete' });
+    await handler({ ...event, PhysicalResourceId: '', RequestType: 'Delete' }, {} as Context);
     expect(putFn).not.toHaveBeenCalled();
   });
   test('handle errors', async () => {
     expect.assertions(1);
     awsSdkPromiseResponse.mockRejectedValueOnce(new Error('ERROR!'));
     try {
-      await handler(event);
+      await handler(event, {} as Context);
     } catch (e) {
       if (e instanceof Error) {
         expect(e.message).toBe('ERROR!');

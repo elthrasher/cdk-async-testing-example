@@ -4,6 +4,8 @@ import { awsSdkPromiseResponse } from '../__mocks__/aws-sdk/clients/awsSdkPromis
 import { putEventsFn } from '../__mocks__/aws-sdk/clients/eventbridge';
 import { handler } from './intTestEvent';
 
+import type { Context } from 'aws-lambda';
+
 const event = {
   LogicalResourceId: '',
   RequestId: '',
@@ -24,7 +26,7 @@ describe('collection success function', () => {
     jest.restoreAllMocks();
   });
   test('update the DynamoDB table with a success response', async () => {
-    await handler(event);
+    await handler(event, {} as Context);
     expect(putEventsFn).toHaveBeenCalledWith({
       Entries: [
         {
@@ -49,14 +51,14 @@ describe('collection success function', () => {
     });
   });
   test('do nothing on a delete event', async () => {
-    await handler({ ...event, PhysicalResourceId: '', RequestType: 'Delete' });
+    await handler({ ...event, PhysicalResourceId: '', RequestType: 'Delete' }, {} as Context);
     expect(putEventsFn).not.toHaveBeenCalled();
   });
   test('handle errors', async () => {
     expect.assertions(1);
     awsSdkPromiseResponse.mockRejectedValueOnce(new Error('ERROR!'));
     try {
-      await handler(event);
+      await handler(event, {} as Context);
     } catch (e) {
       if (e instanceof Error) {
         expect(e.message).toBe('Integration Test failed!');

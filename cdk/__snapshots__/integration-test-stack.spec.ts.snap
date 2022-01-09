@@ -1113,6 +1113,9 @@ Object {
           ],
         },
         "StateMachineName": "CollectionsStateMachine",
+        "TracingConfiguration": Object {
+          "Enabled": true,
+        },
       },
       "Type": "AWS::StepFunctions::StateMachine",
     },
@@ -1177,6 +1180,16 @@ Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+                "xray:GetSamplingRules",
+                "xray:GetSamplingTargets",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             Object {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
@@ -1295,6 +1308,7 @@ Object {
     },
     "collectFunctionF1DD4A0C": Object {
       "DependsOn": Array [
+        "collectFunctionServiceRoleDefaultPolicyC2ED4D54",
         "collectFunctionServiceRoleBD487856",
       ],
       "Properties": Object {
@@ -1305,6 +1319,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "NODE_OPTIONS": "--enable-source-maps",
           },
         },
         "FunctionName": "collect",
@@ -1317,6 +1332,9 @@ Object {
         },
         "Runtime": "nodejs14.x",
         "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -1351,8 +1369,33 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
+    "collectFunctionServiceRoleDefaultPolicyC2ED4D54": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "collectFunctionServiceRoleDefaultPolicyC2ED4D54",
+        "Roles": Array [
+          Object {
+            "Ref": "collectFunctionServiceRoleBD487856",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
     "collectionFailureFunction682979FB": Object {
       "DependsOn": Array [
+        "collectionFailureFunctionServiceRoleDefaultPolicyB9F37612",
         "collectionFailureFunctionServiceRole662CE2FF",
       ],
       "Properties": Object {
@@ -1363,6 +1406,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "NODE_OPTIONS": "--enable-source-maps",
           },
         },
         "FunctionName": "collectionFailure",
@@ -1375,6 +1419,9 @@ Object {
         },
         "Runtime": "nodejs14.x",
         "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -1409,8 +1456,33 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
+    "collectionFailureFunctionServiceRoleDefaultPolicyB9F37612": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "collectionFailureFunctionServiceRoleDefaultPolicyB9F37612",
+        "Roles": Array [
+          Object {
+            "Ref": "collectionFailureFunctionServiceRole662CE2FF",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
     "collectionSuccessFunction5C4E05C2": Object {
       "DependsOn": Array [
+        "collectionSuccessFunctionServiceRoleDefaultPolicyA0766DBC",
         "collectionSuccessFunctionServiceRole727C0164",
       ],
       "Properties": Object {
@@ -1421,6 +1493,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "NODE_OPTIONS": "--enable-source-maps",
           },
         },
         "FunctionName": "collectionSuccess",
@@ -1433,6 +1506,9 @@ Object {
         },
         "Runtime": "nodejs14.x",
         "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -1467,8 +1543,33 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
+    "collectionSuccessFunctionServiceRoleDefaultPolicyA0766DBC": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "collectionSuccessFunctionServiceRoleDefaultPolicyA0766DBC",
+        "Roles": Array [
+          Object {
+            "Ref": "collectionSuccessFunctionServiceRole727C0164",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
     "openCollectionFunctionAD7A9939": Object {
       "DependsOn": Array [
+        "openCollectionFunctionServiceRoleDefaultPolicy7EB84761",
         "openCollectionFunctionServiceRole5D634737",
       ],
       "Properties": Object {
@@ -1479,6 +1580,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "NODE_OPTIONS": "--enable-source-maps",
           },
         },
         "FunctionName": "openCollection",
@@ -1491,6 +1593,9 @@ Object {
         },
         "Runtime": "nodejs14.x",
         "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -1525,6 +1630,30 @@ Object {
       },
       "Type": "AWS::IAM::Role",
     },
+    "openCollectionFunctionServiceRoleDefaultPolicy7EB84761": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "openCollectionFunctionServiceRoleDefaultPolicy7EB84761",
+        "Roles": Array [
+          Object {
+            "Ref": "openCollectionFunctionServiceRole5D634737",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
     "paymentFailureFunction2E4A54C2": Object {
       "DependsOn": Array [
         "paymentFailureFunctionServiceRoleDefaultPolicy78A9826D",
@@ -1538,6 +1667,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "NODE_OPTIONS": "--enable-source-maps",
           },
         },
         "FunctionName": "paymentFailure",
@@ -1550,6 +1680,9 @@ Object {
         },
         "Runtime": "nodejs14.x",
         "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -1589,6 +1722,14 @@ Object {
         "PolicyDocument": Object {
           "Statement": Array [
             Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
               "Action": "events:PutEvents",
               "Effect": "Allow",
               "Resource": Object {
@@ -1612,6 +1753,7 @@ Object {
     },
     "paymentSuccessFunction82B44889": Object {
       "DependsOn": Array [
+        "paymentSuccessFunctionServiceRoleDefaultPolicyBD68F7D7",
         "paymentSuccessFunctionServiceRole417E5467",
       ],
       "Properties": Object {
@@ -1622,6 +1764,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "NODE_OPTIONS": "--enable-source-maps",
           },
         },
         "FunctionName": "paymentSuccess",
@@ -1634,6 +1777,9 @@ Object {
         },
         "Runtime": "nodejs14.x",
         "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -1667,6 +1813,30 @@ Object {
         ],
       },
       "Type": "AWS::IAM::Role",
+    },
+    "paymentSuccessFunctionServiceRoleDefaultPolicyBD68F7D7": Object {
+      "Properties": Object {
+        "PolicyDocument": Object {
+          "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "paymentSuccessFunctionServiceRoleDefaultPolicyBD68F7D7",
+        "Roles": Array [
+          Object {
+            "Ref": "paymentSuccessFunctionServiceRole417E5467",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
   },
   "Rules": Object {
