@@ -1,3 +1,4 @@
+import { Logger } from '@aws-lambda-powertools/logger';
 import { Tracer } from '@aws-lambda-powertools/tracer';
 import EventBridge from 'aws-sdk/clients/eventbridge';
 
@@ -7,11 +8,14 @@ import type { Payment } from '../models/payment';
 import type { LambdaInterface } from '@aws-lambda-powertools/commons';
 import type { EventBridgeEvent, Context } from 'aws-lambda';
 
-const tracer = new Tracer({ serviceName: 'paymentCollections' });
+const powerToolsConfig = { serviceName: 'paymentCollections' };
+const logger = new Logger(powerToolsConfig);
+const tracer = new Tracer(powerToolsConfig);
 
 const eb = tracer.captureAWSClient(new EventBridge());
 
 class Lambda implements LambdaInterface {
+  @logger.injectLambdaContext()
   @tracer.captureLambdaHandler()
   public async handler(event: EventBridgeEvent<string, Payment>, _context: Context): Promise<void> {
     try {
@@ -30,7 +34,7 @@ class Lambda implements LambdaInterface {
         })
         .promise();
     } catch (e) {
-      console.error('Failed to record failed payment (so much failure)', e);
+      logger.error('Failed to record failed payment (so much failure)', e);
       throw e;
     }
   }

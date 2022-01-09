@@ -1,5 +1,10 @@
-import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+import DynamoDB, { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { Entity, Table } from 'dynamodb-toolbox';
+import { Tracer } from '@aws-lambda-powertools/tracer';
+
+const tracer = new Tracer({ serviceName: 'paymentCollections' });
+const client = new DocumentClient();
+tracer.captureAWSClient((client as DocumentClient & { service: DynamoDB }).service);
 
 export enum PaymentStatus {
   PENDING = 'PENDING',
@@ -22,11 +27,19 @@ export interface Payment {
    */
 }
 
+<<<<<<< HEAD
 type CustomKey = {
   id: string;
 };
 
 const table = new Table({ name: 'payments', partitionKey: 'pk', DocumentClient: new DocumentClient() });
+=======
+const table = new Table({
+  name: 'payments',
+  partitionKey: 'pk',
+  DocumentClient: client,
+});
+>>>>>>> 9804cfa (Logger)
 
 export const PaymentEntity = new Entity<Payment, CustomKey, typeof table>({
   name: 'payment',

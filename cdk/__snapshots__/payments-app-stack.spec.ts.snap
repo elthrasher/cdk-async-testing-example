@@ -90,6 +90,9 @@ Object {
         },
         "Runtime": "nodejs14.x",
         "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -129,6 +132,14 @@ Object {
         "PolicyDocument": Object {
           "Statement": Array [
             Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            Object {
               "Action": "events:PutEvents",
               "Effect": "Allow",
               "Resource": Object {
@@ -160,6 +171,7 @@ Object {
         "Environment": Object {
           "Variables": Object {
             "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1",
+            "NODE_OPTIONS": "--enable-source-maps",
           },
         },
         "FunctionName": "IntTestIsComplete",
@@ -172,6 +184,9 @@ Object {
         },
         "Runtime": "nodejs14.x",
         "Timeout": 60,
+        "TracingConfig": Object {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -210,6 +225,14 @@ Object {
       "Properties": Object {
         "PolicyDocument": Object {
           "Statement": Array [
+            Object {
+              "Action": Array [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             Object {
               "Action": "dynamodb:GetItem",
               "Condition": Object {
