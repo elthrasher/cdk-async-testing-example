@@ -1,6 +1,6 @@
-import { Architecture, Function as LambdaFunction, Runtime } from '@aws-cdk/aws-lambda';
-import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
-import { Duration, Stack } from '@aws-cdk/core';
+import { Duration, Stack } from 'aws-cdk-lib';
+import { Architecture, Function as LambdaFunction, Runtime } from 'aws-cdk-lib/aws-lambda';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 
 const functionNames = [
   'collect',

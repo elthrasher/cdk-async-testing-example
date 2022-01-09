@@ -2,13 +2,97 @@
 
 exports[`App Stack create the app stack 1`] = `
 Object {
-  "Outputs": Object {
-    "socketsWebsocketendpoint44A72F7E": Object {
-      "Value": Object {
-        "Fn::GetAtt": Array [
-          "socketssocketsapiD8FF7C66",
-          "ApiEndpoint",
-        ],
+  "Mappings": Object {
+    "ServiceprincipalMap": Object {
+      "af-south-1": Object {
+        "states": "states.af-south-1.amazonaws.com",
+      },
+      "ap-east-1": Object {
+        "states": "states.ap-east-1.amazonaws.com",
+      },
+      "ap-northeast-1": Object {
+        "states": "states.ap-northeast-1.amazonaws.com",
+      },
+      "ap-northeast-2": Object {
+        "states": "states.ap-northeast-2.amazonaws.com",
+      },
+      "ap-northeast-3": Object {
+        "states": "states.ap-northeast-3.amazonaws.com",
+      },
+      "ap-south-1": Object {
+        "states": "states.ap-south-1.amazonaws.com",
+      },
+      "ap-southeast-1": Object {
+        "states": "states.ap-southeast-1.amazonaws.com",
+      },
+      "ap-southeast-2": Object {
+        "states": "states.ap-southeast-2.amazonaws.com",
+      },
+      "ap-southeast-3": Object {
+        "states": "states.ap-southeast-3.amazonaws.com",
+      },
+      "ca-central-1": Object {
+        "states": "states.ca-central-1.amazonaws.com",
+      },
+      "cn-north-1": Object {
+        "states": "states.cn-north-1.amazonaws.com",
+      },
+      "cn-northwest-1": Object {
+        "states": "states.cn-northwest-1.amazonaws.com",
+      },
+      "eu-central-1": Object {
+        "states": "states.eu-central-1.amazonaws.com",
+      },
+      "eu-north-1": Object {
+        "states": "states.eu-north-1.amazonaws.com",
+      },
+      "eu-south-1": Object {
+        "states": "states.eu-south-1.amazonaws.com",
+      },
+      "eu-south-2": Object {
+        "states": "states.eu-south-2.amazonaws.com",
+      },
+      "eu-west-1": Object {
+        "states": "states.eu-west-1.amazonaws.com",
+      },
+      "eu-west-2": Object {
+        "states": "states.eu-west-2.amazonaws.com",
+      },
+      "eu-west-3": Object {
+        "states": "states.eu-west-3.amazonaws.com",
+      },
+      "me-south-1": Object {
+        "states": "states.me-south-1.amazonaws.com",
+      },
+      "sa-east-1": Object {
+        "states": "states.sa-east-1.amazonaws.com",
+      },
+      "us-east-1": Object {
+        "states": "states.us-east-1.amazonaws.com",
+      },
+      "us-east-2": Object {
+        "states": "states.us-east-2.amazonaws.com",
+      },
+      "us-gov-east-1": Object {
+        "states": "states.us-gov-east-1.amazonaws.com",
+      },
+      "us-gov-west-1": Object {
+        "states": "states.us-gov-west-1.amazonaws.com",
+      },
+      "us-iso-east-1": Object {
+        "states": "states.amazonaws.com",
+      },
+      "us-iso-west-1": Object {
+        "states": "states.amazonaws.com",
+      },
+      "us-isob-east-1": Object {
+        "states": "states.amazonaws.com",
+      },
+      "us-west-1": Object {
+        "states": "states.us-west-1.amazonaws.com",
+      },
+      "us-west-2": Object {
+        "states": "states.us-west-2.amazonaws.com",
       },
     },
   },
@@ -289,15 +373,12 @@ Object {
               "Effect": "Allow",
               "Principal": Object {
                 "Service": Object {
-                  "Fn::Join": Array [
-                    "",
-                    Array [
-                      "states.",
-                      Object {
-                        "Ref": "AWS::Region",
-                      },
-                      ".amazonaws.com",
-                    ],
+                  "Fn::FindInMap": Array [
+                    "ServiceprincipalMap",
+                    Object {
+                      "Ref": "AWS::Region",
+                    },
+                    "states",
                   ],
                 },
               },
@@ -381,35 +462,9 @@ Object {
               },
               "/",
               Object {
-                "Ref": "AssetParameters44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8aS3Bucket2C4CA032",
+                "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
               },
-              "/",
-              Object {
-                "Fn::Select": Array [
-                  0,
-                  Object {
-                    "Fn::Split": Array [
-                      "||",
-                      Object {
-                        "Ref": "AssetParameters44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8aS3VersionKeyF0C529DD",
-                      },
-                    ],
-                  },
-                ],
-              },
-              Object {
-                "Fn::Select": Array [
-                  1,
-                  Object {
-                    "Fn::Split": Array [
-                      "||",
-                      Object {
-                        "Ref": "AssetParameters44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8aS3VersionKeyF0C529DD",
-                      },
-                    ],
-                  },
-                ],
-              },
+              "/44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a.json",
             ],
           ],
         },
@@ -960,608 +1015,32 @@ Object {
       },
       "Type": "AWS::IAM::Policy",
     },
-    "socketsWebsocketRule0B7D8648": Object {
-      "Properties": Object {
-        "EventBusName": Object {
-          "Ref": "PaymentBus7030EAFE",
-        },
-        "EventPattern": Object {
-          "source": Array [
-            "payments",
-          ],
-        },
-        "State": "ENABLED",
-        "Targets": Array [
-          Object {
-            "Arn": Object {
-              "Fn::GetAtt": Array [
-                "socketseventbridgebrokerFC701A28",
-                "Arn",
-              ],
-            },
-            "Id": "Target0",
-          },
-        ],
-      },
-      "Type": "AWS::Events::Rule",
-    },
-    "socketsWebsocketRuleAllowEventRulesocketseventbridgebrokerF6BF472A5E33BE72": Object {
-      "Properties": Object {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": Object {
-          "Fn::GetAtt": Array [
-            "socketseventbridgebrokerFC701A28",
-            "Arn",
-          ],
-        },
-        "Principal": "events.amazonaws.com",
-        "SourceArn": Object {
-          "Fn::GetAtt": Array [
-            "socketsWebsocketRule0B7D8648",
-            "Arn",
-          ],
-        },
-      },
-      "Type": "AWS::Lambda::Permission",
-    },
-    "socketsconnectlambdaintegration94A5D2E7": Object {
-      "Properties": Object {
-        "ApiId": Object {
-          "Ref": "socketssocketsapiD8FF7C66",
-        },
-        "CredentialsArn": Object {
-          "Fn::GetAtt": Array [
-            "socketssocketsapiiamrole80934E79",
-            "Arn",
-          ],
-        },
-        "IntegrationType": "AWS_PROXY",
-        "IntegrationUri": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "arn:aws:apigateway:",
+  },
+  "Rules": Object {
+    "CheckBootstrapVersion": Object {
+      "Assertions": Array [
+        Object {
+          "Assert": Object {
+            "Fn::Not": Array [
               Object {
-                "Ref": "AWS::Region",
-              },
-              ":lambda:path/2015-03-31/functions/",
-              Object {
-                "Fn::GetAtt": Array [
-                  "socketsonconnectAF5470EE",
-                  "Arn",
-                ],
-              },
-              "/invocations",
-            ],
-          ],
-        },
-      },
-      "Type": "AWS::ApiGatewayV2::Integration",
-    },
-    "socketsconnectroute9FB2E3E8": Object {
-      "Properties": Object {
-        "ApiId": Object {
-          "Ref": "socketssocketsapiD8FF7C66",
-        },
-        "AuthorizationType": "NONE",
-        "RouteKey": "$connect",
-        "Target": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "integrations/",
-              Object {
-                "Ref": "socketsconnectlambdaintegration94A5D2E7",
-              },
-            ],
-          ],
-        },
-      },
-      "Type": "AWS::ApiGatewayV2::Route",
-    },
-    "socketsdisconnectlambdaintegrationEC2FA407": Object {
-      "Properties": Object {
-        "ApiId": Object {
-          "Ref": "socketssocketsapiD8FF7C66",
-        },
-        "CredentialsArn": Object {
-          "Fn::GetAtt": Array [
-            "socketssocketsapiiamrole80934E79",
-            "Arn",
-          ],
-        },
-        "IntegrationType": "AWS_PROXY",
-        "IntegrationUri": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "arn:aws:apigateway:",
-              Object {
-                "Ref": "AWS::Region",
-              },
-              ":lambda:path/2015-03-31/functions/",
-              Object {
-                "Fn::GetAtt": Array [
-                  "socketsondisconnect009BF7B1",
-                  "Arn",
-                ],
-              },
-              "/invocations",
-            ],
-          ],
-        },
-      },
-      "Type": "AWS::ApiGatewayV2::Integration",
-    },
-    "socketsdisconnectrouteCA8E55D8": Object {
-      "Properties": Object {
-        "ApiId": Object {
-          "Ref": "socketssocketsapiD8FF7C66",
-        },
-        "AuthorizationType": "NONE",
-        "RouteKey": "$disconnect",
-        "Target": Object {
-          "Fn::Join": Array [
-            "",
-            Array [
-              "integrations/",
-              Object {
-                "Ref": "socketsdisconnectlambdaintegrationEC2FA407",
-              },
-            ],
-          ],
-        },
-      },
-      "Type": "AWS::ApiGatewayV2::Route",
-    },
-    "socketseventbridgebrokerFC701A28": Object {
-      "DependsOn": Array [
-        "socketseventbridgebrokerServiceRoleDefaultPolicyFAF00DD4",
-        "socketseventbridgebrokerServiceRole35F5E406",
-      ],
-      "Properties": Object {
-        "Code": Any<Object>,
-        "Environment": Object {
-          "Variables": Object {
-            "TABLE_NAME": "sockets-connections-table",
-            "WEBSOCKET_API": Object {
-              "Fn::Join": Array [
-                "",
-                Array [
-                  Object {
-                    "Fn::GetAtt": Array [
-                      "socketssocketsapiD8FF7C66",
-                      "ApiEndpoint",
-                    ],
-                  },
-                  "/dev",
-                ],
-              ],
-            },
-          },
-        },
-        "Handler": "eventbridge-broker.handler",
-        "MemorySize": 256,
-        "Role": Object {
-          "Fn::GetAtt": Array [
-            "socketseventbridgebrokerServiceRole35F5E406",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs12.x",
-        "Timeout": 300,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "socketseventbridgebrokerServiceRole35F5E406": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "socketseventbridgebrokerServiceRoleDefaultPolicyFAF00DD4": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "execute-api:ManageConnections",
-              "Effect": "Allow",
-              "Resource": Object {
-                "Fn::Join": Array [
-                  "",
+                "Fn::Contains": Array [
                   Array [
-                    "arn:aws:execute-api:",
-                    Object {
-                      "Ref": "AWS::Region",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":",
-                    Object {
-                      "Ref": "socketssocketsapiD8FF7C66",
-                    },
-                    "/*",
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
                   ],
+                  Object {
+                    "Ref": "BootstrapVersion",
+                  },
                 ],
               },
-            },
-            Object {
-              "Action": Array [
-                "dynamodb:BatchGetItem",
-                "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
-                "dynamodb:Query",
-                "dynamodb:GetItem",
-                "dynamodb:Scan",
-                "dynamodb:ConditionCheckItem",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "socketssocketsconnectionstable568D7DDC",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Ref": "AWS::NoValue",
-                },
-              ],
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "socketseventbridgebrokerServiceRoleDefaultPolicyFAF00DD4",
-        "Roles": Array [
-          Object {
-            "Ref": "socketseventbridgebrokerServiceRole35F5E406",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "socketsonconnectAF5470EE": Object {
-      "DependsOn": Array [
-        "socketsonconnectServiceRoleDefaultPolicyD6139915",
-        "socketsonconnectServiceRole26AE5142",
-      ],
-      "Properties": Object {
-        "Code": Any<Object>,
-        "Environment": Object {
-          "Variables": Object {
-            "TABLE_NAME": "sockets-connections-table",
-          },
-        },
-        "Handler": "on-connect.handler",
-        "MemorySize": 256,
-        "Role": Object {
-          "Fn::GetAtt": Array [
-            "socketsonconnectServiceRole26AE5142",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs12.x",
-        "Timeout": 300,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "socketsonconnectServiceRole26AE5142": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
             ],
           },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "socketsonconnectServiceRoleDefaultPolicyD6139915": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "dynamodb:BatchGetItem",
-                "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
-                "dynamodb:Query",
-                "dynamodb:GetItem",
-                "dynamodb:Scan",
-                "dynamodb:ConditionCheckItem",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "socketssocketsconnectionstable568D7DDC",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Ref": "AWS::NoValue",
-                },
-              ],
-            },
-          ],
-          "Version": "2012-10-17",
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
         },
-        "PolicyName": "socketsonconnectServiceRoleDefaultPolicyD6139915",
-        "Roles": Array [
-          Object {
-            "Ref": "socketsonconnectServiceRole26AE5142",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "socketsondisconnect009BF7B1": Object {
-      "DependsOn": Array [
-        "socketsondisconnectServiceRoleDefaultPolicy1C4F10A1",
-        "socketsondisconnectServiceRoleAED49009",
       ],
-      "Properties": Object {
-        "Code": Any<Object>,
-        "Environment": Object {
-          "Variables": Object {
-            "TABLE_NAME": "sockets-connections-table",
-          },
-        },
-        "Handler": "on-disconnect.handler",
-        "MemorySize": 256,
-        "Role": Object {
-          "Fn::GetAtt": Array [
-            "socketsondisconnectServiceRoleAED49009",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs12.x",
-        "Timeout": 300,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "socketsondisconnectServiceRoleAED49009": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": Array [
-          Object {
-            "Fn::Join": Array [
-              "",
-              Array [
-                "arn:",
-                Object {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "socketsondisconnectServiceRoleDefaultPolicy1C4F10A1": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": Array [
-                "dynamodb:BatchGetItem",
-                "dynamodb:GetRecords",
-                "dynamodb:GetShardIterator",
-                "dynamodb:Query",
-                "dynamodb:GetItem",
-                "dynamodb:Scan",
-                "dynamodb:ConditionCheckItem",
-                "dynamodb:BatchWriteItem",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem",
-              ],
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "socketssocketsconnectionstable568D7DDC",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Ref": "AWS::NoValue",
-                },
-              ],
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "socketsondisconnectServiceRoleDefaultPolicy1C4F10A1",
-        "Roles": Array [
-          Object {
-            "Ref": "socketsondisconnectServiceRoleAED49009",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "socketssocketsapiD8FF7C66": Object {
-      "Properties": Object {
-        "Name": "EventBridgeSockets",
-        "ProtocolType": "WEBSOCKET",
-        "RouteSelectionExpression": "$request.body.action",
-      },
-      "Type": "AWS::ApiGatewayV2::Api",
-    },
-    "socketssocketsapideployment1E29EE87": Object {
-      "DependsOn": Array [
-        "socketsconnectroute9FB2E3E8",
-        "socketsdisconnectrouteCA8E55D8",
-      ],
-      "Properties": Object {
-        "ApiId": Object {
-          "Ref": "socketssocketsapiD8FF7C66",
-        },
-      },
-      "Type": "AWS::ApiGatewayV2::Deployment",
-    },
-    "socketssocketsapiiamrole80934E79": Object {
-      "Properties": Object {
-        "AssumeRolePolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": Object {
-                "Service": "apigateway.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "socketssocketsapiiamroleDefaultPolicy1C0BEE6C": Object {
-      "Properties": Object {
-        "PolicyDocument": Object {
-          "Statement": Array [
-            Object {
-              "Action": "lambda:InvokeFunction",
-              "Effect": "Allow",
-              "Resource": Array [
-                Object {
-                  "Fn::GetAtt": Array [
-                    "socketsonconnectAF5470EE",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::GetAtt": Array [
-                    "socketsondisconnect009BF7B1",
-                    "Arn",
-                  ],
-                },
-                Object {
-                  "Fn::GetAtt": Array [
-                    "socketseventbridgebrokerFC701A28",
-                    "Arn",
-                  ],
-                },
-              ],
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "socketssocketsapiiamroleDefaultPolicy1C0BEE6C",
-        "Roles": Array [
-          Object {
-            "Ref": "socketssocketsapiiamrole80934E79",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "socketssocketsapistageCA5306B1": Object {
-      "Properties": Object {
-        "ApiId": Object {
-          "Ref": "socketssocketsapiD8FF7C66",
-        },
-        "AutoDeploy": true,
-        "DeploymentId": Object {
-          "Ref": "socketssocketsapideployment1E29EE87",
-        },
-        "StageName": "dev",
-      },
-      "Type": "AWS::ApiGatewayV2::Stage",
-    },
-    "socketssocketsconnectionstable568D7DDC": Object {
-      "DeletionPolicy": "Delete",
-      "Properties": Object {
-        "AttributeDefinitions": Array [
-          Object {
-            "AttributeName": "connectionId",
-            "AttributeType": "S",
-          },
-        ],
-        "KeySchema": Array [
-          Object {
-            "AttributeName": "connectionId",
-            "KeyType": "HASH",
-          },
-        ],
-        "ProvisionedThroughput": Object {
-          "ReadCapacityUnits": 5,
-          "WriteCapacityUnits": 5,
-        },
-        "TableName": "sockets-connections-table",
-      },
-      "Type": "AWS::DynamoDB::Table",
-      "UpdateReplacePolicy": "Delete",
     },
   },
 }

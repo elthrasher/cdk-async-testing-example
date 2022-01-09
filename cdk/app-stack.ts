@@ -1,6 +1,7 @@
-import { Table } from '@aws-cdk/aws-dynamodb';
-import { EventBus } from '@aws-cdk/aws-events';
-import { NestedStack, NestedStackProps, Stack } from '@aws-cdk/core';
+import { NestedStack, NestedStackProps, Stack } from 'aws-cdk-lib';
+import { Table } from 'aws-cdk-lib/aws-dynamodb';
+import { EventBus } from 'aws-cdk-lib/aws-events';
+
 import { getTable } from './dynamodb';
 import { getEventBus } from './eventbridge';
 import { getFunctions } from './lambda';

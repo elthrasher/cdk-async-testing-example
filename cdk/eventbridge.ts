@@ -1,8 +1,7 @@
-import { EventBus, Rule } from '@aws-cdk/aws-events';
-import { LambdaFunction, SfnStateMachine } from '@aws-cdk/aws-events-targets';
-import { StateMachine } from '@aws-cdk/aws-stepfunctions';
-import { Stack } from '@aws-cdk/core';
-import { EventBridgeWebSocket } from 'cdk-eventbridge-socket';
+import { Stack } from 'aws-cdk-lib';
+import { EventBus, Rule } from 'aws-cdk-lib/aws-events';
+import { LambdaFunction, SfnStateMachine } from 'aws-cdk-lib/aws-events-targets';
+import { StateMachine } from 'aws-cdk-lib/aws-stepfunctions';
 
 import type { lambdaFunctions } from './lambda';
 
@@ -43,13 +42,15 @@ export const getEventBus = (stack: Stack, fns: lambdaFunctions, sm: StateMachine
 
   eventBus.grantPutEventsTo(fns.paymentFailure);
 
-  new EventBridgeWebSocket(stack, 'sockets', {
-    bus: eventBus.eventBusName,
-    eventPattern: {
-      source: ['payments'],
-    },
-    stage: 'dev',
-  });
+  // Unfortunately this construct doesn't support CDK v2. Will bring it back if it ever does.
+
+  // new EventBridgeWebSocket(stack, 'sockets', {
+  //   bus: eventBus.eventBusName,
+  //   eventPattern: {
+  //     source: ['payments'],
+  //   },
+  //   stage: 'dev',
+  // });
 
   return eventBus;
 };

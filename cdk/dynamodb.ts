@@ -1,5 +1,5 @@
-import { AttributeType, Table } from '@aws-cdk/aws-dynamodb';
-import { RemovalPolicy, Stack } from '@aws-cdk/core';
+import { RemovalPolicy, Stack } from 'aws-cdk-lib';
+import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 
 export const getTable = (stack: Stack): Table => {
   return new Table(stack, 'PaymentsTable', {

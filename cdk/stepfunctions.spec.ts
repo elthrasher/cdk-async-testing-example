@@ -1,5 +1,5 @@
-import { SynthUtils } from '@aws-cdk/assert';
-import { App, Stack } from '@aws-cdk/core';
+import { App, Stack } from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
 
 import { getFunctions } from './lambda';
 import { getStateMachine } from './stepfunctions';
@@ -10,7 +10,8 @@ describe('Entire Stack', () => {
     const stack = new Stack(app, 'TestStack', { env: { account: '123456789', region: 'us-east-1' } });
     const fns = getFunctions(stack);
     getStateMachine(stack, fns);
-    const cfn = SynthUtils.toCloudFormation(stack);
+    const template = Template.fromStack(stack);
+    const cfn = template.toJSON();
     const resources = cfn.Resources;
     const matchObject: { Parameters: Record<string, unknown>; Resources: Record<string, unknown> } = {
       Parameters: expect.any(Object),
@@ -29,6 +30,6 @@ describe('Entire Stack', () => {
     });
 
     expect(cfn).toMatchSnapshot(matchObject);
-    expect(stack).toCountResources('AWS::StepFunctions::StateMachine', 1);
+    template.resourceCountIs('AWS::StepFunctions::StateMachine', 1);
   });
 });

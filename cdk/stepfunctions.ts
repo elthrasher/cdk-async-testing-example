@@ -1,6 +1,6 @@
-import { Chain, Choice, Condition, StateMachine } from '@aws-cdk/aws-stepfunctions';
-import { LambdaInvoke } from '@aws-cdk/aws-stepfunctions-tasks';
-import { Stack } from '@aws-cdk/core';
+import { Stack } from 'aws-cdk-lib';
+import { Chain, Choice, Condition, StateMachine } from 'aws-cdk-lib/aws-stepfunctions';
+import { LambdaInvoke } from 'aws-cdk-lib/aws-stepfunctions-tasks';
 
 import { lambdaFunctions } from './lambda';
 

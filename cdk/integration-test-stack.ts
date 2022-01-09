@@ -1,11 +1,11 @@
-import { Table } from '@aws-cdk/aws-dynamodb';
-import { EventBus } from '@aws-cdk/aws-events';
-import { PolicyStatement } from '@aws-cdk/aws-iam';
-import { Runtime } from '@aws-cdk/aws-lambda';
-import { NodejsFunction } from '@aws-cdk/aws-lambda-nodejs';
-import { RetentionDays } from '@aws-cdk/aws-logs';
-import { CustomResource, Duration, NestedStack, NestedStackProps, Stack } from '@aws-cdk/core';
-import { Provider } from '@aws-cdk/custom-resources';
+import { CustomResource, Duration, NestedStack, NestedStackProps, Stack } from 'aws-cdk-lib';
+import { Table } from 'aws-cdk-lib/aws-dynamodb';
+import { EventBus } from 'aws-cdk-lib/aws-events';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { Runtime } from 'aws-cdk-lib/aws-lambda';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import { RetentionDays } from 'aws-cdk-lib/aws-logs';
+import { Provider } from 'aws-cdk-lib/custom-resources';
 
 interface IntegrationTestStackProps extends NestedStackProps {
   eventBus: EventBus;

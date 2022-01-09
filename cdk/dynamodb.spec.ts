@@ -1,5 +1,5 @@
-import { SynthUtils } from '@aws-cdk/assert';
-import { App, Stack } from '@aws-cdk/core';
+import { App, Stack } from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
 
 import { getTable } from './dynamodb';
 
@@ -8,9 +8,10 @@ describe('DynamoDB', () => {
     const app = new App();
     const stack = new Stack(app, 'TestStack', { env: { account: '123456789', region: 'us-east-1' } });
     getTable(stack);
-    const cfn = SynthUtils.toCloudFormation(stack);
+    const template = Template.fromStack(stack);
+    const cfn = template.toJSON();
 
     expect(cfn).toMatchSnapshot();
-    expect(stack).toCountResources('AWS::DynamoDB::Table', 1);
+    template.resourceCountIs('AWS::DynamoDB::Table', 1);
   });
 });

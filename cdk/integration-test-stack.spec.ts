@@ -1,7 +1,7 @@
-import { SynthUtils } from '@aws-cdk/assert';
-import { App, Stack } from '@aws-cdk/core';
-import { getTable } from './dynamodb';
+import { App, Stack } from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
 
+import { getTable } from './dynamodb';
 import { getEventBus } from './eventbridge';
 import { IntegrationTestStack } from './integration-test-stack';
 import { getFunctions } from './lambda';
@@ -16,7 +16,8 @@ describe('Integration Test Stack', () => {
       eventBus: getEventBus(stack, fns, getStateMachine(stack, fns)),
       table: getTable(stack),
     });
-    const cfn = SynthUtils.toCloudFormation(stack);
+    const template = Template.fromStack(stack);
+    const cfn = template.toJSON();
     const resources = cfn.Resources;
     const matchObject: { Parameters: Record<string, unknown>; Resources: Record<string, unknown> } = {
       Parameters: expect.any(Object),
@@ -40,8 +41,8 @@ describe('Integration Test Stack', () => {
     });
 
     expect(cfn).toMatchSnapshot(matchObject);
-    expect(stack).toCountResources('AWS::CloudFormation::CustomResource', 1);
-    expect(stack).toCountResources('AWS::Lambda::Function', 15);
-    expect(stack).toCountResources('AWS::StepFunctions::StateMachine', 2);
+    template.resourceCountIs('AWS::CloudFormation::CustomResource', 1);
+    template.resourceCountIs('AWS::Lambda::Function', 12);
+    template.resourceCountIs('AWS::StepFunctions::StateMachine', 2);
   });
 });

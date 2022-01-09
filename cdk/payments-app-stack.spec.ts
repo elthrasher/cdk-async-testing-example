@@ -1,5 +1,5 @@
-import { SynthUtils } from '@aws-cdk/assert';
-import { App } from '@aws-cdk/core';
+import { App } from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
 
 import { PaymentsAppStack } from './payments-app-stack';
 
@@ -7,7 +7,8 @@ describe('Entire Stack', () => {
   test('create the entire stack', () => {
     const app = new App();
     const stack = new PaymentsAppStack(app, 'TestStack', { env: { account: '123456789', region: 'us-east-1' } });
-    const cfn = SynthUtils.toCloudFormation(stack);
+    const template = Template.fromStack(stack);
+    const cfn = template.toJSON();
     const resources = cfn.Resources;
     const matchObject: { Parameters: Record<string, unknown>; Resources: Record<string, unknown> } = {
       Parameters: expect.any(Object),
@@ -31,10 +32,10 @@ describe('Entire Stack', () => {
     });
 
     expect(cfn).toMatchSnapshot(matchObject);
-    expect(stack).toCountResources('AWS::CloudFormation::CustomResource', 1);
-    expect(stack).toCountResources('AWS::DynamoDB::Table', 2);
-    expect(stack).toCountResources('AWS::Events::EventBus', 1);
-    expect(stack).toCountResources('AWS::Lambda::Function', 15);
-    expect(stack).toCountResources('AWS::StepFunctions::StateMachine', 2);
+    template.resourceCountIs('AWS::CloudFormation::CustomResource', 1);
+    template.resourceCountIs('AWS::DynamoDB::Table', 1);
+    template.resourceCountIs('AWS::Events::EventBus', 1);
+    template.resourceCountIs('AWS::Lambda::Function', 12);
+    template.resourceCountIs('AWS::StepFunctions::StateMachine', 2);
   });
 });

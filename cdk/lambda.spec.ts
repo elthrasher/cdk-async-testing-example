@@ -1,5 +1,5 @@
-import { SynthUtils } from '@aws-cdk/assert';
-import { App, Stack } from '@aws-cdk/core';
+import { App, Stack } from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
 
 import { getFunctions } from './lambda';
 
@@ -8,7 +8,8 @@ describe('Lambda', () => {
     const app = new App();
     const stack = new Stack(app, 'TestStack', { env: { account: '123456789', region: 'us-east-1' } });
     getFunctions(stack);
-    const cfn = SynthUtils.toCloudFormation(stack);
+    const template = Template.fromStack(stack);
+    const cfn = template.toJSON();
     const resources = cfn.Resources;
     const matchObject: { Parameters: Record<string, unknown>; Resources: Record<string, unknown> } = {
       Parameters: expect.any(Object),
@@ -27,6 +28,6 @@ describe('Lambda', () => {
     });
 
     expect(cfn).toMatchSnapshot(matchObject);
-    expect(stack).toCountResources('AWS::Lambda::Function', 6);
+    template.resourceCountIs('AWS::Lambda::Function', 6);
   });
 });

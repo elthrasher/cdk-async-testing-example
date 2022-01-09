@@ -1,5 +1,5 @@
-import { SynthUtils } from '@aws-cdk/assert';
-import { App, Stack } from '@aws-cdk/core';
+import { App, Stack } from 'aws-cdk-lib';
+import { Template } from 'aws-cdk-lib/assertions';
 
 import { AppStack } from './app-stack';
 
@@ -8,7 +8,8 @@ describe('App Stack', () => {
     const app = new App();
     const stack = new Stack(app);
     new AppStack(stack, 'TestStack');
-    const cfn = SynthUtils.toCloudFormation(stack);
+    const template = Template.fromStack(stack);
+    const cfn = template.toJSON();
     const resources = cfn.Resources;
     const matchObject: { Parameters: Record<string, unknown>; Resources: Record<string, unknown> } = {
       Parameters: expect.any(Object),
@@ -27,9 +28,10 @@ describe('App Stack', () => {
     });
 
     expect(cfn).toMatchSnapshot(matchObject);
-    expect(stack).toCountResources('AWS::DynamoDB::Table', 2);
-    expect(stack).toCountResources('AWS::Events::EventBus', 1);
-    expect(stack).toCountResources('AWS::Lambda::Function', 9);
-    expect(stack).toCountResources('AWS::StepFunctions::StateMachine', 1);
+
+    template.resourceCountIs('AWS::DynamoDB::Table', 1);
+    template.resourceCountIs('AWS::Events::EventBus', 1);
+    template.resourceCountIs('AWS::Lambda::Function', 6);
+    template.resourceCountIs('AWS::StepFunctions::StateMachine', 1);
   });
 });
