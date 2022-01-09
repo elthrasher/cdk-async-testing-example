@@ -1,18 +1,11 @@
-import { Logger } from '@aws-lambda-powertools/logger';
-import { Tracer } from '@aws-lambda-powertools/tracer';
 import { CloudFormationCustomResourceEvent } from 'aws-lambda';
 
 import { PaymentEntity, PaymentStatus } from '../models/payment';
 
 import type { LambdaInterface } from '@aws-lambda-powertools/commons';
 import type { Context } from 'aws-lambda';
-const powerToolsConfig = { serviceName: 'paymentCollections' };
-const logger = new Logger(powerToolsConfig);
-const tracer = new Tracer(powerToolsConfig);
 
 class Lambda implements LambdaInterface {
-  @logger.injectLambdaContext()
-  @tracer.captureLambdaHandler()
   public async handler(
     event: CloudFormationCustomResourceEvent,
     _context: Context,
@@ -26,8 +19,8 @@ class Lambda implements LambdaInterface {
       // and the processed count is equal to validated count, the test passes.
       const successResponse = (await PaymentEntity.get({ id: `TEST#${Version}#success` })).Item;
       const failureResponse = (await PaymentEntity.get({ id: `TEST#${Version}#failure` })).Item;
-      logger.info(`Success Response: ${successResponse?.status}`);
-      logger.info(`Failure Response: ${failureResponse?.status}`);
+      console.info(`Success Response: ${successResponse?.status}`);
+      console.info(`Failure Response: ${failureResponse?.status}`);
       const IsComplete =
         successResponse?.status === PaymentStatus.SUCCESS &&
         (failureResponse?.status === PaymentStatus.COLLECTION_FAILURE ||
@@ -41,7 +34,7 @@ class Lambda implements LambdaInterface {
           }
         : { IsComplete };
     } catch (e) {
-      logger.error('Integration Test Error', e);
+      console.error('Integration Test Error', e);
       throw e;
     }
   }

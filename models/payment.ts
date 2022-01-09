@@ -1,10 +1,9 @@
 import DynamoDB, { DocumentClient } from 'aws-sdk/clients/dynamodb';
+import { captureAWSClient } from 'aws-xray-sdk-core';
 import { Entity, Table } from 'dynamodb-toolbox';
-import { Tracer } from '@aws-lambda-powertools/tracer';
 
-const tracer = new Tracer({ serviceName: 'paymentCollections' });
 const client = new DocumentClient();
-tracer.captureAWSClient((client as DocumentClient & { service: DynamoDB }).service);
+captureAWSClient((client as DocumentClient & { service: DynamoDB }).service);
 
 export enum PaymentStatus {
   PENDING = 'PENDING',
