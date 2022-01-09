@@ -1,4 +1,5 @@
 import { Logger } from '@aws-lambda-powertools/logger';
+import { Metrics, MetricUnits } from '@aws-lambda-powertools/metrics';
 import { Tracer } from '@aws-lambda-powertools/tracer';
 
 import { PaymentEntity, PaymentStatus } from '../models/payment';
@@ -9,16 +10,19 @@ import type { Context } from 'aws-lambda';
 import type { Payment } from '../models/payment';
 import type { EventBridgeEvent } from 'aws-lambda';
 
-const powerToolsConfig = { serviceName: 'paymentCollections' };
+const powerToolsConfig = { namespace: 'payments', serviceName: 'paymentCollections' };
 const logger = new Logger(powerToolsConfig);
+const metrics = new Metrics(powerToolsConfig);
 const tracer = new Tracer(powerToolsConfig);
 
 class Lambda implements LambdaInterface {
   @logger.injectLambdaContext()
+  @metrics.logMetrics({ captureColdStartMetric: true })
   @tracer.captureLambdaHandler()
   public async handler(event: EventBridgeEvent<string, Payment>, _context: Context): Promise<void> {
     try {
       await PaymentEntity.update({ id: event.detail.id, status: PaymentStatus.SUCCESS });
+      metrics.addMetric('paymentSuccess', MetricUnits.Count, 1);
     } catch (e) {
       logger.error('Failed to record successful payment', e);
       throw e;
