@@ -12,13 +12,14 @@ export const handler = async (
   try {
     // Query the DynamoDB table to get the meta record. If it has some processed records
     // and the processed count is equal to validated count, the test passes.
-    const successResponse = (await PaymentEntity.get({ id: `TEST#${Version}#success` })).Item || {};
-    const failureResponse = (await PaymentEntity.get({ id: `TEST#${Version}#failure` })).Item || {};
-    console.log('Success Response: ', successResponse.status);
-    console.log('Failure Response: ', failureResponse.status);
+    const successResponse = (await PaymentEntity.get({ id: `TEST#${Version}#success` })).Item;
+    const failureResponse = (await PaymentEntity.get({ id: `TEST#${Version}#failure` })).Item;
+    console.log('Success Response: ', successResponse?.status);
+    console.log('Failure Response: ', failureResponse?.status);
     const IsComplete =
-      successResponse.status === PaymentStatus.SUCCESS &&
-      [PaymentStatus.COLLECTION_FAILURE, PaymentStatus.COLLECTION_SUCCESS].includes(failureResponse.status);
+      successResponse?.status === PaymentStatus.SUCCESS &&
+      (failureResponse?.status === PaymentStatus.COLLECTION_FAILURE ||
+        failureResponse?.status === PaymentStatus.COLLECTION_SUCCESS);
     return IsComplete
       ? {
           Data: {

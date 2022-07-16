@@ -22,13 +22,17 @@ export interface Payment {
    */
 }
 
+type CustomKey = {
+  id: string;
+};
+
 const table = new Table({ name: 'payments', partitionKey: 'pk', DocumentClient: new DocumentClient() });
 
-export const PaymentEntity = new Entity<Payment>({
+export const PaymentEntity = new Entity<Payment, CustomKey, typeof table>({
   name: 'payment',
   attributes: {
     id: { partitionKey: true },
     status: { type: 'string' },
   },
   table,
-});
+} as const);
