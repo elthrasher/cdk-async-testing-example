@@ -43,9 +43,9 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "@aws-lambda-powertools/commons": "^0.2.0",
-    "@aws-lambda-powertools/logger": "^0.2.0",
-    "@aws-lambda-powertools/tracer": "^0.2.0",
+    "@aws-lambda-powertools/commons": "^1.0.1",
+    "@aws-lambda-powertools/logger": "^1.0.1",
+    "@aws-lambda-powertools/tracer": "^1.0.1",
     "aws-cdk-lib": "^2.4.0",
     "aws-sdk": "^2.1053.0",
     "aws-xray-sdk": "^3.3.4",

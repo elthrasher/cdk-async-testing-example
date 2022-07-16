@@ -18,4 +18,5 @@ export class DocumentClient {
   query = queryFn;
   update = updateFn;
   options = {};
+  service = { customizeRequests: jest.fn() };
 }
